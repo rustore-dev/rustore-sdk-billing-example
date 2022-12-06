@@ -4,15 +4,17 @@
 ### Требуемые условия
 
 Для корректной работы SDK необходимо соблюдать следующие условия:
-1. Задан правильно consoleApplicationId в init():
+
+- Задан правильно consoleApplicationId в init():
 ```
 RuStoreBillingClient.init(
     application = this,
     consoleApplicationId = "111111", // Заменить на свой id (https://console.rustore.ru/apps/111111)
-    deeplinkPrefix = "yourappscheme://iamback",
+    deeplinkPrefix = "yourappscheme://iamback", // Может быть любым
 )
 ```
-2. ApplicationId, указанный в build.gradle, совпадает с applicationId apk-файла, который вы публиковали в консоль RuStore:
+
+- ApplicationId, указанный в build.gradle, совпадает с applicationId apk-файла, который вы публиковали в консоль RuStore:
 ```
 android {
     defaultConfig {
@@ -20,7 +22,8 @@ android {
     }
 }
 ```
-3. Подпись keystore должна совпадать с подписью, которой было подписано приложение, опубликованное в консоль RuStore. Убедитесь, что используемый buildType (пр. debug) использует такую же подпись, что и опубликованное приложение (пр. release).
+
+- Подпись keystore должна совпадать с подписью, которой было подписано приложение, опубликованное в консоль RuStore. Убедитесь, что используемый buildType (пр. debug) использует такую же подпись, что и опубликованное приложение (пр. release).
 
 ### Потребление и отмена покупки
 RuStore Billing SDK требует правильно обрабатывать состояния покупки, чтобы предоставить наилучший сценарий использования.
@@ -87,3 +90,8 @@ private fun purchaseProduct(product: Product) {
     }
 ```
 Пример взят из [BillingExampleViewModel.kt](https://gitflic.ru/project/rustore/rustore-sdk-billing-example/blob?file=app%2Fsrc%2Fmain%2Fkotlin%2Fru%2Frustore%2Fsdk%2Fbillingexample%2Fpayment%2FBillingExampleViewModel.kt).
+
+### Есть вопросы
+Если появились вопросы по интеграции SDK платежей, обратитесь по этой ссылке:
+[https://help.rustore.ru/rustore/trouble/user/help_user_email](https://help.rustore.ru/rustore/trouble/user/help_user_email)
+или напишите на почту support@rustore.ru.

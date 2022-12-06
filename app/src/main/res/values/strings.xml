@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">RuStore Billing Example</string>
+
+    <string name="billing_start_purchases">Начать покупки</string>
+
+    <string name="billing_common_ok">ОК</string>
+    <string name="billing_common_error">Что-то пошло не так</string>
+
+    <string name="billing_products_tab">Продукты</string>
+    <string name="billing_purchases_tab">Покупки</string>
+
+    <string name="billing_name">Name:</string>
+    <string name="billing_type">Type:</string>
+    <string name="billing_state">State:</string>
+    <string name="billing_price">Price:</string>
+    <string name="billing_quantity">Quantity:</string>
+
+    <string name="billing_buy_product">Покупка продукта</string>
+    <string name="billing_confirm_purchase">Подтверждение покупки</string>
+    <string name="billing_delete_purchase">Отмена покупки</string>
+
+    <string name="billing_general_error">Ошибка</string>
+    <string name="billing_purchase_result">Статус покупки продукта</string>
+    <string name="billing_purchase_confirm_in_progress">Подтверждаем покупку…</string>
+    <string name="billing_purchase_delete_in_progress">Удаляем покупку…</string>
+    <string name="billing_product_confirmed">Продукт подтвержден/подтреблен</string>
+    <string name="billing_product_deleted">Покупка отменена</string>
+
+    <string name="billing_purchase_product_id_null">Некорректный параметр: productId</string>
+    <string name="billing_purchase_order_id_null">Некорректный параметр: orderId</string>
+    <string name="billing_purchase_quantity_null">Некорректный параметр: quantity</string>
+
+    <string name="billing_empty_products_list">Пустой список продуктов</string>
+
+    <string name="billing_product_type_non_consumable">Непотребляемый продукт</string>
+    <string name="billing_product_type_consumable">Потребляемый продукт</string>
+    <string name="billing_product_type_subscription">Подписка</string>
+
+    <string name="billing_product_status_active">Активный продукт</string>
+    <string name="billing_product_status_inactive">Неактивный продукт</string>
+</resources>

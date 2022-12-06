@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="productConfirmedColor">#A6C7AA</color>
+    <color name="productPaidColor">#B2D2EA</color>
+    <color name="productInvoiceCreatedColor">#EEB1B1</color>
+</resources>

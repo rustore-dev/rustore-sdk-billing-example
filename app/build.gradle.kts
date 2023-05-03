@@ -7,12 +7,12 @@ plugins {
 }
 
 android {
-    compileSdk = 32
+    compileSdk = 33
 
     defaultConfig {
         applicationId = "ru.rustore.sdk.billingexample"
         minSdk = 23
-        targetSdk = 32
+        targetSdk = 33
         versionCode = 1
         versionName = "1.0"
 
@@ -62,7 +62,7 @@ android {
 }
 
 dependencies {
-    implementation("ru.rustore.sdk:billingclient:0.1.1")
+    implementation("ru.rustore.sdk:billingclient:1.1.1")
 
     implementation("com.google.android.material:material:1.6.0")
     implementation("androidx.core:core-ktx:1.8.0")

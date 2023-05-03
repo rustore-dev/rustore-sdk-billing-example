@@ -14,9 +14,12 @@ import ru.rustore.sdk.billingclient.model.product.ProductType
 import ru.rustore.sdk.billingclient.model.purchase.PaymentFinishCode
 import ru.rustore.sdk.billingclient.model.purchase.PaymentResult
 import ru.rustore.sdk.billingclient.model.purchase.PurchaseState
+import ru.rustore.sdk.billingexample.di.PaymentsModule
 import ru.rustore.sdk.billingexample.payment.model.*
 
 class BillingExampleViewModel : ViewModel() {
+    
+    private val billingClient: RuStoreBillingClient = PaymentsModule.provideRuStoreBillingClient()
 
     private val availableProductIds = listOf(
         "productId1",
@@ -46,22 +49,22 @@ class BillingExampleViewModel : ViewModel() {
         viewModelScope.launch {
             runCatching {
                 withContext(Dispatchers.IO) {
-                    val products = RuStoreBillingClient.products.getProducts(
+                    val products = billingClient.products.getProducts(
                         productIds = availableProductIds
                     ).await().products.orEmpty()
 
-                    val purchases = RuStoreBillingClient.purchases.getPurchases().await().purchases.orEmpty()
+                    val purchases = billingClient.purchases.getPurchases().await().purchases.orEmpty()
 
                     purchases.forEach { purchase ->
                         val purchaseId = purchase.purchaseId
                         if (purchaseId != null) {
                             when (purchase.purchaseState) {
                                 PurchaseState.CREATED, PurchaseState.INVOICE_CREATED -> {
-                                    RuStoreBillingClient.purchases.deletePurchase(purchaseId).await()
+                                    billingClient.purchases.deletePurchase(purchaseId).await()
                                 }
 
                                 PurchaseState.PAID -> {
-                                    RuStoreBillingClient.purchases.confirmPurchase(purchaseId).await()
+                                    billingClient.purchases.confirmPurchase(purchaseId).await()
                                 }
 
                                 else -> Unit
@@ -88,7 +91,7 @@ class BillingExampleViewModel : ViewModel() {
     }
 
     private fun purchaseProduct(product: Product) {
-        RuStoreBillingClient.purchases.purchaseProduct(product.productId)
+        billingClient.purchases.purchaseProduct(product.productId)
             .addOnSuccessListener { paymentResult ->
                 handlePaymentResult(paymentResult, product)
             }
@@ -131,7 +134,7 @@ class BillingExampleViewModel : ViewModel() {
             isLoading = true,
             snackbarResId = R.string.billing_purchase_confirm_in_progress
         )
-        RuStoreBillingClient.purchases.confirmPurchase(purchaseId)
+        billingClient.purchases.confirmPurchase(purchaseId)
             .addOnSuccessListener { response ->
                 _event.tryEmit(
                     BillingEvent.ShowDialog(InfoDialogState(
@@ -154,7 +157,7 @@ class BillingExampleViewModel : ViewModel() {
             isLoading = true,
             snackbarResId = R.string.billing_purchase_delete_in_progress
         )
-        RuStoreBillingClient.purchases.deletePurchase(purchaseId)
+        billingClient.purchases.deletePurchase(purchaseId)
             .addOnSuccessListener { response ->
                 _event.tryEmit(
                     BillingEvent.ShowDialog(InfoDialogState(

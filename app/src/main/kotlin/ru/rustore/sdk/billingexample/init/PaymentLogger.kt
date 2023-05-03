@@ -1,7 +1,7 @@
 package ru.rustore.sdk.billingexample.init
 
 import android.util.Log
-import ru.rustore.sdk.billingclient.provider.ExternalPaymentLogger
+import ru.rustore.sdk.billingclient.provider.logger.ExternalPaymentLogger
 
 class PaymentLogger(private val tag: String) : ExternalPaymentLogger {
     override fun d(e: Throwable?, message: () -> String) {

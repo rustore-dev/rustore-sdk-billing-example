@@ -63,31 +63,20 @@ private fun purchaseProduct(product: Product) {
         }
 }
 
-private fun handlePaymentResult(paymentResult: PaymentResult, product: Product) {
-    when (paymentResult) {
-        is PaymentResult.InvalidPurchase -> {
-            paymentResult.purchaseId?.let { deletePurchase(it) }
-        }
-        is PaymentResult.PurchaseResult -> {
-            when (paymentResult.finishCode) {
-                PaymentFinishCode.SUCCESSFUL_PAYMENT -> {
-                    if (product.productType == ProductType.CONSUMABLE) {
-                        confirmPurchase(paymentResult.purchaseId)
-                    }
-                }
-                PaymentFinishCode.CLOSED_BY_USER,
-                PaymentFinishCode.UNHANDLED_FORM_ERROR,
-                PaymentFinishCode.PAYMENT_TIMEOUT,
-                PaymentFinishCode.DECLINED_BY_SERVER,
-                PaymentFinishCode.RESULT_UNKNOWN,
-                -> {
-                    deletePurchase(paymentResult.purchaseId)
-                }
+private fun handlePaymentResult(paymentResult: PaymentResult) {
+        when (paymentResult) {
+            is PaymentResult.Failure -> {
+                paymentResult.purchaseId?.let { deletePurchase(it) }
             }
+
+            is PaymentResult.Success -> {
+                confirmPurchase(paymentResult.purchaseId)
+            }
+
+            else -> Unit
         }
-        else -> Unit
-    }
 }
+
 ```
 Пример взят из [BillingExampleViewModel.kt](https://gitflic.ru/project/rustore/rustore-sdk-billing-example/blob?file=app%2Fsrc%2Fmain%2Fkotlin%2Fru%2Frustore%2Fsdk%2Fbillingexample%2Fpayment%2FBillingExampleViewModel.kt).
 

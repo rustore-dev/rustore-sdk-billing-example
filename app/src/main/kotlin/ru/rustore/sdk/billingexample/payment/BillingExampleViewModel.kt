@@ -10,12 +10,12 @@ import kotlinx.coroutines.withContext
 import ru.rustore.sdk.billingexample.R
 import ru.rustore.sdk.billingclient.RuStoreBillingClient
 import ru.rustore.sdk.billingclient.model.product.Product
-import ru.rustore.sdk.billingclient.model.product.ProductType
-import ru.rustore.sdk.billingclient.model.purchase.PaymentFinishCode
 import ru.rustore.sdk.billingclient.model.purchase.PaymentResult
 import ru.rustore.sdk.billingclient.model.purchase.PurchaseState
 import ru.rustore.sdk.billingexample.di.PaymentsModule
-import ru.rustore.sdk.billingexample.payment.model.*
+import ru.rustore.sdk.billingexample.payment.model.BillingEvent
+import ru.rustore.sdk.billingexample.payment.model.BillingState
+import ru.rustore.sdk.billingexample.payment.model.InfoDialogState
 
 class BillingExampleViewModel : ViewModel() {
     
@@ -51,9 +51,9 @@ class BillingExampleViewModel : ViewModel() {
                 withContext(Dispatchers.IO) {
                     val products = billingClient.products.getProducts(
                         productIds = availableProductIds
-                    ).await().products.orEmpty()
+                    ).await()
 
-                    val purchases = billingClient.purchases.getPurchases().await().purchases.orEmpty()
+                    val purchases = billingClient.purchases.getPurchases().await()
 
                     purchases.forEach { purchase ->
                         val purchaseId = purchase.purchaseId
@@ -93,36 +93,21 @@ class BillingExampleViewModel : ViewModel() {
     private fun purchaseProduct(product: Product) {
         billingClient.purchases.purchaseProduct(product.productId)
             .addOnSuccessListener { paymentResult ->
-                handlePaymentResult(paymentResult, product)
+                handlePaymentResult(paymentResult)
             }
             .addOnFailureListener {
                 setErrorStateOnFailure(it)
             }
     }
 
-    private fun handlePaymentResult(paymentResult: PaymentResult, product: Product) {
+    private fun handlePaymentResult(paymentResult: PaymentResult) {
         when (paymentResult) {
-            is PaymentResult.InvalidPurchase -> {
+            is PaymentResult.Failure -> {
                 paymentResult.purchaseId?.let { deletePurchase(it) }
             }
 
-            is PaymentResult.PurchaseResult -> {
-                when (paymentResult.finishCode) {
-                    PaymentFinishCode.SUCCESSFUL_PAYMENT -> {
-                        if (product.productType == ProductType.CONSUMABLE) {
-                            confirmPurchase(paymentResult.purchaseId)
-                        }
-                    }
-
-                    PaymentFinishCode.CLOSED_BY_USER,
-                    PaymentFinishCode.UNHANDLED_FORM_ERROR,
-                    PaymentFinishCode.PAYMENT_TIMEOUT,
-                    PaymentFinishCode.DECLINED_BY_SERVER,
-                    PaymentFinishCode.RESULT_UNKNOWN,
-                    -> {
-                        deletePurchase(paymentResult.purchaseId)
-                    }
-                }
+            is PaymentResult.Success -> {
+                confirmPurchase(paymentResult.purchaseId)
             }
 
             else -> Unit
@@ -134,13 +119,15 @@ class BillingExampleViewModel : ViewModel() {
             isLoading = true,
             snackbarResId = R.string.billing_purchase_confirm_in_progress
         )
-        billingClient.purchases.confirmPurchase(purchaseId)
+        billingClient.purchases.confirmPurchase(purchaseId, null)
             .addOnSuccessListener { response ->
                 _event.tryEmit(
-                    BillingEvent.ShowDialog(InfoDialogState(
+                    BillingEvent.ShowDialog(
+                        InfoDialogState(
                         titleRes = R.string.billing_product_confirmed,
                         message = response.toString(),
-                    ))
+                    )
+                    )
                 )
                 _state.value = _state.value.copy(
                     isLoading = false,

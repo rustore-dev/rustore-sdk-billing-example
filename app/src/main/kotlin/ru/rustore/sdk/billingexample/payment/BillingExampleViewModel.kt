@@ -1,5 +1,6 @@
 package ru.rustore.sdk.billingexample.payment
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
@@ -7,6 +8,8 @@ import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.json.JSONException
+import org.json.JSONObject
 import ru.rustore.sdk.billingexample.R
 import ru.rustore.sdk.billingclient.RuStoreBillingClient
 import ru.rustore.sdk.billingclient.model.product.Product
@@ -57,6 +60,7 @@ class BillingExampleViewModel : ViewModel() {
 
                     purchases.forEach { purchase ->
                         val purchaseId = purchase.purchaseId
+                        Log.w("RuStoreBillingClient", "DeveloperPayloadInfo: ${purchase.developerPayload}")
                         if (purchaseId != null) {
                             when (purchase.purchaseState) {
                                 PurchaseState.CREATED, PurchaseState.INVOICE_CREATED -> {
@@ -91,13 +95,28 @@ class BillingExampleViewModel : ViewModel() {
     }
 
     private fun purchaseProduct(product: Product) {
-        billingClient.purchases.purchaseProduct(product.productId)
-            .addOnSuccessListener { paymentResult ->
-                handlePaymentResult(paymentResult)
-            }
-            .addOnFailureListener {
-                setErrorStateOnFailure(it)
-            }
+
+        val developerPayload: String = "your_developer_payload"
+
+        // Если хотите использовать json для метода developerPayload
+        val developerPayloadString = "{\"key1\":\"value1\",\"key2\":\"value2\"}"
+
+        try {
+            val developerPayloadJson = JSONObject(developerPayloadString)
+
+            // Для Json передавайте developerPayloadJson.toString()
+
+            billingClient.purchases.purchaseProduct(productId = product.productId, developerPayload = developerPayload)
+                .addOnSuccessListener { paymentResult ->
+                    handlePaymentResult(paymentResult)
+                }
+                .addOnFailureListener {
+                    setErrorStateOnFailure(it)
+                }
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        }
+
     }
 
     private fun handlePaymentResult(paymentResult: PaymentResult) {

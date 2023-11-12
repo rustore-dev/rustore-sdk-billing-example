@@ -53,7 +53,7 @@ purchases.forEach { purchase ->
 
 Обработать результат покупки необходимо следующим образом:
 ```
-private fun purchaseProduct(product: Product) {
+private fun purchaseProduct(product: Product, orderId: String?, quantity: Int, developerPayload: String) {
     billingClient.purchases.purchaseProduct(product.productId)
         .addOnSuccessListener { paymentResult ->
             handlePaymentResult(paymentResult, product)

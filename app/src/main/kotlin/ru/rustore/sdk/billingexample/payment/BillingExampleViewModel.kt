@@ -60,7 +60,9 @@ class BillingExampleViewModel : ViewModel() {
 
                     purchases.forEach { purchase ->
                         val purchaseId = purchase.purchaseId
-                        Log.w("RuStoreBillingClient", "DeveloperPayloadInfo: ${purchase.developerPayload}")
+                        if (purchase.developerPayload?.isNotEmpty() == true) {
+                            Log.w("RuStoreBillingClient", "DeveloperPayloadInfo: ${purchase.developerPayload}")
+                        }
                         if (purchaseId != null) {
                             when (purchase.purchaseState) {
                                 PurchaseState.CREATED, PurchaseState.INVOICE_CREATED -> {
@@ -96,27 +98,15 @@ class BillingExampleViewModel : ViewModel() {
 
     private fun purchaseProduct(product: Product) {
 
-        val developerPayload: String = "your_developer_payload"
+        val developerPayload = "your_developer_payload"
 
-        // Если хотите использовать json для метода developerPayload
-        val developerPayloadString = "{\"key1\":\"value1\",\"key2\":\"value2\"}"
-
-        try {
-            val developerPayloadJson = JSONObject(developerPayloadString)
-
-            // Для Json передавайте developerPayloadJson.toString()
-
-            billingClient.purchases.purchaseProduct(productId = product.productId, developerPayload = developerPayload)
-                .addOnSuccessListener { paymentResult ->
-                    handlePaymentResult(paymentResult)
-                }
-                .addOnFailureListener {
-                    setErrorStateOnFailure(it)
-                }
-        } catch (e: JSONException) {
-            e.printStackTrace()
-        }
-
+        billingClient.purchases.purchaseProduct(productId = product.productId, developerPayload = developerPayload)
+            .addOnSuccessListener { paymentResult ->
+                handlePaymentResult(paymentResult)
+            }
+            .addOnFailureListener {
+                setErrorStateOnFailure(it)
+            }
     }
 
     private fun handlePaymentResult(paymentResult: PaymentResult) {

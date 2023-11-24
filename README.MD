@@ -1,6 +1,9 @@
 # Пример внедрения SDK платежей RuStore
 ## [Документация SDK платежей](https://help.rustore.ru/rustore/for_developers/developer-documentation/sdk_payments/SDK-connecting-payments/quick_start)
 
+### [English version of README.md](https://gitflic.ru/project/rustore/rustore-sdk-billing-example/blob?file=README_EN.MD&branch=master)
+
+
 ### Требуемые условия
 
 Для корректной работы SDK необходимо соблюдать следующие условия:

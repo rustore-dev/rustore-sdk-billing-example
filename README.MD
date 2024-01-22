@@ -87,23 +87,19 @@
 ### Сценарий использования
 
 #### Проверка доступности работы с платежами
-Нажатие на кнопку "Начать покупки" выполняет [проверку доступности платежей](https://www.rustore.ru/help/sdk/payments/checkpurchasesavailability/), и в случае успеха открывает экран `BillingExampleFragment`.
-
+Нажатие на кнопку "Начать покупки" выполняет [проверку доступности платежей](https://www.rustore.ru/help/sdk/payments/checkpurchasesavailability/),
 
 
 ![Проверка доступности работы с платежами](app/src/main/res/drawable/start.png)
 
 #### Получение списка продуктов
-Если проверка на доступность платежей прошла успешно - вернулся FeatureAvailabilityResult.Available, тогда выполняется получение и отображение [списка продуктов](https://www.rustore.ru/help/sdk/payments/getproducts/),
-если пришел FeatureAvailabilityResult.Unavailable, то откроется [диалог с ошибкой](https://www.rustore.ru/help/sdk/payments/error-processing),
-в противном случае, если нам вернулся StartPurchasesEvent.Error - покажется текст "Что-то пошло не так".
-
+При открытии экрана `BillingExampleFragment` выполняется получение и отображение [списка продуктов](https://www.rustore.ru/help/sdk/payments/getproducts/)
 
 
 ![Получение списка продуктов](app/src/main/res/drawable/get_products.png)
 
 #### Покупка продукта
-Тап по айтему выполняет запуск сценария [покупки продукта](https://www.rustore.ru/help/sdk/payments/purchaseproduct/) с отображением шторки выбора метода оплаты.
+Нажатие на айтем выполняет запуск сценария [покупки продукта](https://www.rustore.ru/help/sdk/payments/purchaseproduct/) с отображением шторки выбора метода оплаты.
 Далее если приходит ответ PaymentResult.Success -> выполняется [подтверждение покупки](https://www.rustore.ru/help/sdk/payments/confirmpurchase/), если приходит ответ PaymentResult.Failure -> выполняется [отмена покупки](https://www.rustore.ru/help/sdk/payments/deletepurchase/).
 
 

@@ -85,22 +85,30 @@
 
 
 ### Сценарий использования
-Запуск приложения
 
 #### Проверка доступности работы с платежами
-![Текст с описанием картинки](app/src/main/res/drawable/start.png)
-Проверка доступности работы с платежами Тап по кнопке "Начать покупки" выполняет [проверку доступности платежей](https://www.rustore.ru/help/sdk/payments/checkpurchasesavailability/), и в случае успеха открывает экран `BillingExampleFragment`
+Нажатие на кнопку "Начать покупки" выполняет [проверку доступности платежей](https://www.rustore.ru/help/sdk/payments/checkpurchasesavailability/), и в случае успеха открывает экран `BillingExampleFragment`.
+
+
+
+![Проверка доступности работы с платежами](app/src/main/res/drawable/start.png)
 
 #### Получение списка продуктов
-![Текст с описанием картинки](app/src/main/res/drawable/get_products.png)
 Если проверка на доступность платежей прошла успешно - вернулся FeatureAvailabilityResult.Available, тогда выполняется получение и отображение [списка продуктов](https://www.rustore.ru/help/sdk/payments/getproducts/),
 если пришел FeatureAvailabilityResult.Unavailable, то откроется [диалог с ошибкой](https://www.rustore.ru/help/sdk/payments/error-processing),
-в противном случае, если нам вернулся StartPurchasesEvent.Error - покажется текст "Что-то пошло не так"
+в противном случае, если нам вернулся StartPurchasesEvent.Error - покажется текст "Что-то пошло не так".
+
+
+
+![Получение списка продуктов](app/src/main/res/drawable/get_products.png)
 
 #### Покупка продукта
-![Текст с описанием картинки](app/src/main/res/drawable/purchase.png)
 Тап по айтему выполняет запуск сценария [покупки продукта](https://www.rustore.ru/help/sdk/payments/purchaseproduct/) с отображением шторки выбора метода оплаты.
-Далее если приходит ответ PaymentResult.Success -> выполняется [подтверждение покупки](https://www.rustore.ru/help/sdk/payments/confirmpurchase/), если приходит ответ PaymentResult.Failure -> выполняется [отмена покупки](https://www.rustore.ru/help/sdk/payments/deletepurchase/)
+Далее если приходит ответ PaymentResult.Success -> выполняется [подтверждение покупки](https://www.rustore.ru/help/sdk/payments/confirmpurchase/), если приходит ответ PaymentResult.Failure -> выполняется [отмена покупки](https://www.rustore.ru/help/sdk/payments/deletepurchase/).
+
+
+
+![Покупка продукта](app/src/main/res/drawable/purchase.png)
 
 
 ### Обработка deeplink

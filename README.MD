@@ -1,6 +1,8 @@
 # Пример внедрения SDK платежей RuStore
 ## [Документация SDK платежей](https://www.rustore.ru/help/sdk/payments/general)
 
+### [English version of README.md](https://gitflic.ru/project/rustore/rustore-sdk-billing-example/blob?file=README_EN.MD&branch=master)
+
 
 ### Оглавление
 - [Условия работы платежей](#Условия-работы-платежей)
@@ -21,7 +23,9 @@
 
 3. Пользователь и приложение не должны быть заблокированы в RuStore.
 
-4. Для приложения включена возможность покупок в системе RuStore Консоль.
+4. Для приложения включена возможность покупок в системе [RuStore Консоль](https://console.rustore.ru/sign-in).
+
+> Сервис имеет некоторые ограничения на работу за пределами РФ.
 
 
 ### Подготовка требуемых параметров
@@ -34,16 +38,16 @@
    ```
     android {
        defaultConfig {
-       applicationId = "ru.rustore.sdk.billingexample" // 
+       applicationId = "ru.rustore.sdk.billingexample" 
        }
     }
    ```
 
 3. `availableProductIds` - [подписки](https://www.rustore.ru/help/developers/monetization/create-app-subscription/) и [разовые покупки](https://www.rustore.ru/help/developers/monetization/create-paid-product-in-application/) доступные в вашем приложении
 
-4. `release.keystore` - подпись, которой было подписано приложение, опубликованное в консоль RuStore
+4. `release.keystore` - подпись, которой было подписано приложение, опубликованное в консоль RuStore.
 
-5. `release.properties` - `key_alias`, `key_password`, `store_password`. Параметры подписи, которой было подписано приложение, опубликованное в консоль RuStore.
+5. `release.properties` - в этом файле должны быть указаны параметры подписи, которой было подписано приложение, опубликованное в консоль RuStore. [Как работать с ключами подписи APK-файлов](https://www.rustore.ru/help/developers/publishing-and-verifying-apps/app-publication/apk-signature/)
 
 
 ###  Настройка примера приложения
@@ -53,9 +57,8 @@
 
    ```
    val billingClient = RuStoreBillingClientFactory.create(
-   context = context,
-   consoleApplicationId = "111111", // Заменить на свой id (https://console.rustore.ru/apps/111111)
-   deeplinkScheme = "rustoresdkexamplescheme", // Укажите URL-адрес для использования deeplink. Должен совпадать с <data android:scheme="" />
+       context = context,
+       consoleApplicationId = "111111", // Заменить на свой id (https://console.rustore.ru/apps/111111)
    ) 
    ```
 
@@ -71,14 +74,14 @@
 
 3. В директории `cert` замените сертификат `release.keystore` - сертификатом своего приложения, так же в `release.properties` выполните настройку параметров `key_alias`, `key_password`, `store_password`.  Подпись `release.keystore` должна совпадать с подписью, которой было подписано приложение, опубликованное в консоль RuStore. Убедитесь, что используемый `buildType` (пр. debug) использует такую же подпись, что и опубликованное приложение (пр. release).
 
-4. В `BillingExampleViewModel` в переменной `availableProductIds` перечислите подписки и разовые покупки доступные в вашем приложении:
+4. В `BillingExampleViewModel` в переменной `availableProductIds` перечислите подписки и разовые продукты доступные в вашем приложении:
 
    ```
    private val availableProductIds = listOf(
-           "productId1",
-           "productId2",
-           "productId3"
-         )
+       "productId1",
+       "productId2",
+       "productId3"
+   )
    ```
 
 5. Запустите проект и проверьте работу приложения
@@ -115,27 +118,32 @@
 Для корректной работы оплаты через сторонние приложения (СБП или SberPay), вам необходимо правильно реализовать обработку deeplink. Для этого необходимо указать в `AndroidManifest.xml` intent-filter с scheme вашего проекта.
 
 1. В файле `AndroidManifest.xml` в параметре data android:scheme укажите URL-адрес для использования deeplink (должен совпадать с параметром `deeplinkScheme` из пункта 1)
-
+ 
    ```
-    <intent-filter>
-    <action android:name="android.intent.action.VIEW" />
-    <data android:scheme="rustoresdkexamplescheme" /> // Заменить на свой deeplink
-    </intent-filter>
+   <activity
+   android:name=".MainActivity">
+   
+   <intent-filter>
+        <action android:name="android.intent.action.VIEW" />
+        <data android:scheme="rustoresdkexamplescheme" /> // Заменить на свой deeplink
+   </intent-filter>
+
+   </activity>
    ```
 
 2. Указать `deeplinkScheme` своего приложения в `RuStoreBillingClientFactory.create()`:
 
    ```
    val billingClient = RuStoreBillingClientFactory.create(
-   context = context,
-   deeplinkScheme = "rustoresdkexamplescheme", // Укажите URL-адрес для использования deeplink. Должен совпадать с <data android:scheme="" />
+       context = context,
+       deeplinkScheme = "rustoresdkexamplescheme", // Укажите URL-адрес для использования deeplink. Должен совпадать с <data android:scheme="" />
    )
    ```
 
 3. Далее в Activity, в которую необходимо вернуться после совершения оплаты (ваша страница магазина), нужно добавить:
 
    ```
-   class YourBillingActivity: AppCompatActivity() {
+   class MainActivity: AppCompatActivity() {
 
        // Previously created with RuStoreBillingClientFactory.create()
        private val billingClient: RuStoreBillingClient = YourDependencyInjection.getBillingClient()
@@ -158,11 +166,11 @@
 
    ```
    <activity
-       android:name=".YourBillingActivity"
-       android:launchMode="singleTask"
-       android:exported="true"
-       android:screenOrientation="portrait"
-       android:windowSoftInputMode="adjustResize">
+      android:name=".MainActivity"
+      android:launchMode="singleTask"
+      android:exported="true"
+      android:screenOrientation="portrait"
+      android:windowSoftInputMode="adjustResize">
    ```
 
 
@@ -171,5 +179,4 @@
 
 
 ### Техническая поддержка
-Если появились вопросы по интеграции SDK платежей, обратитесь по этой ссылке:
-[help.rustore.ru](https://help.rustore.ru/) или напишите на почту support@rustore.ru.
+Если появились вопросы по интеграции SDK платежей, обратитесь по этой [ссылке](https://www.rustore.ru/help/) или напишите на почту support@rustore.ru.

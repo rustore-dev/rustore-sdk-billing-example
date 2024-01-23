@@ -123,10 +123,10 @@
    <activity
    android:name=".MainActivity">
    
-   <intent-filter>
-        <action android:name="android.intent.action.VIEW" />
-        <data android:scheme="rustoresdkexamplescheme" /> // Заменить на свой deeplink
-   </intent-filter>
+       <intent-filter>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="rustoresdkexamplescheme" /> // Заменить на свой deeplink
+       </intent-filter>
 
    </activity>
    ```
@@ -158,7 +158,7 @@
        override fun onNewIntent(intent: Intent?) {
            super.onNewIntent(intent)    
            billingClient.onNewIntent(intent)
-      }
+       }
    } 
    ```
 

@@ -23,9 +23,9 @@ class StartPurchasesViewModel: ViewModel() {
     )
     val event = _event.asSharedFlow()
 
-    fun checkPurchasesAvailability(context: Context) {
+    fun checkPurchasesAvailability() {
         _state.value = _state.value.copy(isLoading = true)
-        RuStoreBillingClient.checkPurchasesAvailability(context)
+        RuStoreBillingClient.checkPurchasesAvailability()
             .addOnSuccessListener { result ->
                 _state.value = _state.value.copy(isLoading = false)
                 _event.tryEmit(StartPurchasesEvent.PurchasesAvailability(result))

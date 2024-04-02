@@ -24,14 +24,12 @@ android {
             val debugPropsFile = rootProject.file("cert/release.properties")
             val debugProps = Properties()
             debugPropsFile.inputStream().use(debugProps::load)
-
             val debugSigningConfig = getByName<ApkSigningConfig>("debug") {
                 storeFile = debugStoreFile
                 keyAlias = debugProps.getProperty("key_alias")
                 keyPassword = debugProps.getProperty("key_password")
                 storePassword = debugProps.getProperty("store_password")
             }
-
             signingConfig = debugSigningConfig
         }
     }
@@ -40,10 +38,10 @@ android {
         release {
             isMinifyEnabled = false
             proguardFiles(
-                getDefaultProguardFile("proguard-android.txt"),
+                getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-           signingConfig = signingConfigs.getByName<ApkSigningConfig>("debug")
+            signingConfig = signingConfigs.getByName<ApkSigningConfig>("debug")
         }
     }
 

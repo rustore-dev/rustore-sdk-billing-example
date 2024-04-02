@@ -1,5 +1,5 @@
 # Пример внедрения SDK платежей RuStore
-## [Документация SDK платежей](https://www.rustore.ru/help/sdk/payments/general)
+## [Документация SDK платежей](https://www.rustore.ru/help/sdk/payments/kotlin-java/)
 
 ### [English version of README.md](https://gitflic.ru/project/rustore/rustore-sdk-billing-example/blob?file=README_EN.MD&branch=master)
 

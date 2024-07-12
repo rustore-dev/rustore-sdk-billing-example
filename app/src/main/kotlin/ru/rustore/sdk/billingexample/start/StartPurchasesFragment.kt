@@ -52,7 +52,7 @@ class StartPurchasesFragment : Fragment() {
 
     private fun FragmentStartPurchasesBinding.initView() {
         startPurchasesButton.setOnClickListener {
-            viewModel.checkPurchasesAvailability()
+            viewModel.checkPurchasesAvailability(requireContext())
         }
     }
 

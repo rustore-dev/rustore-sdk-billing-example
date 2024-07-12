@@ -90,20 +90,20 @@
 ### Сценарий использования
 
 #### Проверка доступности работы с платежами
-Нажатие на кнопку "Начать покупки" выполняет [проверку доступности платежей](https://www.rustore.ru/help/sdk/payments/kotlin-java/5-0-0/#проверка-доступности-работы-с-платежами),
+Нажатие на кнопку "Начать покупки" выполняет [проверку доступности платежей](https://www.rustore.ru/help/sdk/payments/kotlin-java/6-0-0/#проверка-доступности-работы-с-платежами),
 
 
 ![Проверка доступности работы с платежами](app/src/main/res/drawable/start.png)
 
 #### Получение списка продуктов
-При открытии экрана `BillingExampleFragment` выполняется получение и отображение [списка продуктов](https://www.rustore.ru/help/sdk/payments/kotlin-java/5-0-0/#получение-списка-продуктов)
+При открытии экрана `BillingExampleFragment` выполняется получение и отображение [списка продуктов](https://www.rustore.ru/help/sdk/payments/kotlin-java/6-0-0/#получение-списка-продуктов)
 
 
 ![Получение списка продуктов](app/src/main/res/drawable/get_products.png)
 
 #### Покупка продукта
-Нажатие на айтем выполняет запуск сценария [покупки продукта](https://www.rustore.ru/help/sdk/payments/kotlin-java/5-0-0/#покупка-продукта) с отображением шторки выбора метода оплаты.
-Далее если приходит ответ PaymentResult.Success -> выполняется [подтверждение покупки](https://www.rustore.ru/help/sdk/payments/kotlin-java/5-0-0/#подтверждение-покупки), если приходит ответ PaymentResult.Failure -> выполняется [отмена покупки](https://www.rustore.ru/help/sdk/payments/kotlin-java/5-0-0/#отмена-покупки).
+Нажатие на айтем выполняет запуск сценария [покупки продукта](https://www.rustore.ru/help/sdk/payments/kotlin-java/6-0-0/#покупка-продукта) с отображением шторки выбора метода оплаты.
+Далее если приходит ответ PaymentResult.Success -> выполняется [подтверждение покупки](https://www.rustore.ru/help/sdk/payments/kotlin-java/6-0-0/#подтверждение-покупки), если приходит ответ PaymentResult.Failure -> выполняется [отмена покупки](https://www.rustore.ru/help/sdk/payments/kotlin-java/6-0-0/#отмена-покупки).
 
 
 

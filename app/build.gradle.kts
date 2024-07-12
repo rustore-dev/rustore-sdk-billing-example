@@ -60,7 +60,7 @@ android {
 }
 
 dependencies {
-    implementation("ru.rustore.sdk:billingclient:5.0.1")
+    implementation("ru.rustore.sdk:billingclient:6.0.0")
 
     implementation("com.google.android.material:material:1.6.0")
     implementation("androidx.core:core-ktx:1.8.0")

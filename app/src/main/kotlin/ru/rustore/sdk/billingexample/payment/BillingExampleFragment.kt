@@ -13,12 +13,13 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import ru.rustore.sdk.billingclient.utils.resolveForBilling
 import ru.rustore.sdk.billingexample.R
-import ru.rustore.sdk.core.exception.RuStoreException
 import ru.rustore.sdk.billingexample.databinding.FragmentBillingExampleBinding
 import ru.rustore.sdk.billingexample.payment.adapter.ProductsAdapter
-import ru.rustore.sdk.billingexample.payment.model.*
+import ru.rustore.sdk.billingexample.payment.model.BillingEvent
+import ru.rustore.sdk.billingexample.payment.model.BillingState
 import ru.rustore.sdk.billingexample.util.showAlertDialog
 import ru.rustore.sdk.billingexample.util.showToast
+import ru.rustore.sdk.core.exception.RuStoreException
 
 class BillingExampleFragment : Fragment() {
 
@@ -66,7 +67,7 @@ class BillingExampleFragment : Fragment() {
 
     private fun FragmentBillingExampleBinding.initViews() {
         productsRecycler.adapter = productsAdapter
-        swipeRefreshLayout.setOnRefreshListener { viewModel.getProducts() }
+        swipeRefreshLayout.setOnRefreshListener { viewModel.updateProducts() }
     }
 
     private fun FragmentBillingExampleBinding.updateState(state: BillingState) {

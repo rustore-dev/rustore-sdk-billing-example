@@ -1,5 +1,5 @@
 import com.android.build.api.dsl.ApkSigningConfig
-import java.util.*
+import java.util.Properties
 
 plugins {
     id("com.android.application")
@@ -60,7 +60,8 @@ android {
 }
 
 dependencies {
-    implementation("ru.rustore.sdk:billingclient:6.0.0")
+    implementation(platform("ru.rustore.sdk:bom:2025.02.01"))
+    implementation("ru.rustore.sdk:billingclient")
 
     implementation("com.google.android.material:material:1.6.0")
     implementation("androidx.core:core-ktx:1.8.0")

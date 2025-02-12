@@ -11,13 +11,13 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.launch
+import ru.rustore.sdk.billingclient.model.purchase.PurchaseAvailabilityResult
 import ru.rustore.sdk.billingclient.utils.resolveForBilling
 import ru.rustore.sdk.billingexample.R
 import ru.rustore.sdk.billingexample.databinding.FragmentStartPurchasesBinding
 import ru.rustore.sdk.billingexample.start.model.StartPurchasesEvent
 import ru.rustore.sdk.billingexample.start.model.StartPurchasesState
 import ru.rustore.sdk.billingexample.util.showToast
-import ru.rustore.sdk.core.feature.model.FeatureAvailabilityResult
 
 class StartPurchasesFragment : Fragment() {
 
@@ -25,7 +25,11 @@ class StartPurchasesFragment : Fragment() {
 
     private var binding: FragmentStartPurchasesBinding? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         binding = FragmentStartPurchasesBinding.inflate(inflater, container, false)
         return binding?.root
     }
@@ -52,7 +56,7 @@ class StartPurchasesFragment : Fragment() {
 
     private fun FragmentStartPurchasesBinding.initView() {
         startPurchasesButton.setOnClickListener {
-            viewModel.checkPurchasesAvailability(requireContext())
+            viewModel.checkPurchasesAvailability()
         }
     }
 
@@ -65,13 +69,19 @@ class StartPurchasesFragment : Fragment() {
         when (event) {
             is StartPurchasesEvent.PurchasesAvailability -> {
                 when (event.availability) {
-                    is FeatureAvailabilityResult.Available -> {
+                    is PurchaseAvailabilityResult.Available -> {
                         this@StartPurchasesFragment.findNavController().navigate(
                             R.id.action_mainFragment_to_billingExampleFragment
                         )
                     }
 
-                    is FeatureAvailabilityResult.Unavailable -> {
+                    is PurchaseAvailabilityResult.Unknown -> {
+                        this@StartPurchasesFragment.findNavController().navigate(
+                            R.id.action_mainFragment_to_billingExampleFragment
+                        )
+                    }
+
+                    is PurchaseAvailabilityResult.Unavailable -> {
                         event.availability.cause.resolveForBilling(requireContext())
                         event.availability.cause.message?.let(::showToast)
                     }

@@ -82,11 +82,10 @@ class BillingExampleViewModel : ViewModel() {
                     withContext(Dispatchers.IO) {
                         val purchaseId = purchase.purchaseId ?: return@withContext
                         when (purchase.purchaseState) {
-                            PurchaseState.CREATED, PurchaseState.INVOICE_CREATED -> {
-                                billingClient.purchases.deletePurchase(purchaseId).await()
-                            }
-
                             PurchaseState.PAID -> {
+                                // If you can not give product to the customer use
+                                // billingClient.purchases.deletePurchase(purchaseId).await()
+
                                 billingClient.purchases.confirmPurchase(purchaseId).await()
                             }
 
@@ -133,10 +132,6 @@ class BillingExampleViewModel : ViewModel() {
 
     private fun handlePaymentResult(paymentResult: PaymentResult, developerPayload: String) {
         when (paymentResult) {
-            is PaymentResult.Failure -> {
-                paymentResult.purchaseId?.let(::deletePurchase)
-            }
-
             is PaymentResult.Success -> {
                 confirmPurchase(
                     purchaseId = paymentResult.purchaseId,
@@ -173,32 +168,6 @@ class BillingExampleViewModel : ViewModel() {
         _state.update { currentState ->
             currentState.copy(isLoading = false, snackbarResId = null)
         }
-    }
-
-    private fun deletePurchase(purchaseId: String) {
-        _state.update { currentState ->
-            currentState.copy(
-                isLoading = true,
-                snackbarResId = R.string.billing_purchase_delete_in_progress
-            )
-        }
-
-        billingClient.purchases.deletePurchase(purchaseId)
-            .addOnSuccessListener { proceedSuccessDeletion(it) }
-            .addOnFailureListener { setErrorStateOnFailure(it) }
-    }
-
-    private fun proceedSuccessDeletion(response: Unit) {
-        _event.tryEmit(
-            BillingEvent.ShowDialog(
-                InfoDialogState(
-                    titleRes = R.string.billing_product_deleted,
-                    message = response.toString()
-                )
-            )
-        )
-
-        _state.update { it.copy(isLoading = false) }
     }
 
     private fun setErrorStateOnFailure(error: Throwable) {

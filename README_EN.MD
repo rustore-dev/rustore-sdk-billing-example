@@ -98,7 +98,7 @@ Opening the `BillingExampleFragment` screen triggers retrieving and displaying t
 
 #### Product purchase
 Pressing the item triggers the [product purchase](https://www.rustore.ru/help/en/sdk/payments/kotlin-java/6-0-0#purchaseproduct) scenario with the payment method screen display.
-Then, if PaymentResult.Success -> is returned, [purchase confirmation](https://www.rustore.ru/help/en/sdk/payments/kotlin-java/6-0-0/#confirmpurchase) is triggered, otherwise, if PaymentResult.Failure -> is returned, [purchase cancellation](https://www.rustore.ru/help/en/sdk/payments/kotlin-java/6-0-0/#deletepurchase) is triggered.
+Then, if PaymentResult.Success -> is returned, [purchase confirmation](https://www.rustore.ru/help/en/sdk/payments/kotlin-java/6-0-0/#confirmpurchase) is triggered.
 
 
 ![Product purchase](app/src/main/res/drawable/purchase.png)

@@ -60,7 +60,7 @@ android {
 }
 
 dependencies {
-    implementation(platform("ru.rustore.sdk:bom:2025.02.01"))
+    implementation(platform("ru.rustore.sdk:bom:2025.08.01"))
     implementation("ru.rustore.sdk:billingclient")
 
     implementation("com.google.android.material:material:1.6.0")

@@ -1,4 +1,13 @@
 # Пример внедрения SDK платежей RuStore
+
+> ⚠️ **ВНИМАНИЕ: SDK BillingClient [DEPRECATED]**
+>
+> SDK BillingClient устарел и больше не будет развиваться. Новый функционал не будет добавляться, будут исправляться только критические ошибки.
+>
+> **Рекомендуется перейти на SDK Pay:**
+> - [Документация SDK Pay](https://www.rustore.ru/help/sdk/pay/kotlin-java/)
+> - [Руководство по миграции с BillingClient на SDK Pay](https://www.rustore.ru/help/sdk/pay/migration)
+
 ## [Документация SDK платежей](https://www.rustore.ru/help/sdk/payments/kotlin-java/)
 
 ### [English version of README.md](https://gitflic.ru/project/rustore/rustore-sdk-billing-example/blob?file=README_EN.MD&branch=master)
